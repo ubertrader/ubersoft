@@ -1,0 +1,31 @@
+
+function DateToStr(_DateNum) 
+{
+string=NumToStr(_DateNum, 1.0,False);
+
+//extract string part
+yy = StrLeft(string, 3);
+mm = StrMid(string, 3, 2);
+dd = StrRight(string, 2);
+
+//transform year
+yy = StrToNum(yy) + 1900; //CORRECT BEFORE AND AFTER 2000
+
+//return string
+return dd + "." + mm + "." + NumToStr(yy, 1, False);
+}
+
+
+Path = "E:\\Trading\\_Work\\YahooDivHistory\\";
+
+if(Status("action") == actionScan)
+{
+DateFrom = DateToStr( Status("rangefromdate") );
+DateTo = DateToStr(Status("rangetodate") );
+
+//Execute And Wait
+ws = CreateObject("WScript.Shell");
+ws.run(path + "YahooDivLoader.exe "+Name()+" "+DateFrom +" " + DateTo + " -a", 0, 1); 
+
+}
+Buy = 0;
